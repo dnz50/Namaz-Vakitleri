@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Namaz Vakitleri</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row mt-3 yer">
+      <div class="col-3 location-icon">
+        <i class="bi bi-geo-alt-fill" data-bs-toggle="modal" data-bs-target="#locationModal">Yer seçiniz</i>
+      </div>
+      <div class="col-3 location">
+        <p id="country">TÜRKİYE</p>
+      </div>
+      <div class="col-3 location">
+        <p id="city">İSTANBUL</p>
+      </div>
+      <div class="col-3 location">
+        <p id="county"></p>
+      </div>
+    </div>
+    <div class="row times">
+      
+      <div class="col-md-2">
+        <p id="tarih">mart</p>
+      </div>
+      <div class="col-md-2">
+        <p id="hicri">ramazan</p>
+      </div>
+      <div class="col-md-4 saat">
+        <p id="current-time">00:00</p>
+      </div>
+      <div class="col-md-4 iftar-kalan">
+        <p >İFTARA KALAN SÜRE</p>
+        <p id="time-iftar">00:00</p>
+      </div>
+      
+    </div>
+   
+    <div class="row">
+      <div class="col-md-12 namaz-kalan">
+        <p class="kalan">NAMAZA KALAN SÜRE</p>
+        <p id="time-left">00:00</p>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12 namaz">
+        <p id="imsak">00</p>
+        <p id="güneş">00</p>
+        <p id="öğle">00</p>
+        <p id="ikindi">00</p>
+        <p id="akşam">00</p>
+        <p id="yatsı">00</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal" tabindex="-1" id="locationModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">YER SEÇİNİZ</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label >ülke</label>
+                <select class="form-control" id="countries" onchange="changeCountry()">
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label >şehir</label>
+                <select class="form-control" id="cities" onchange="changeCity()">
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label >ilçe</label>
+                <select class="form-control" id="counties">
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Kapat</button>
+          <button type="button" id="kaydet" class="btn btn-outline-success" onclick="ChangeLocation()" data-bs-dismiss="modal">Kaydet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

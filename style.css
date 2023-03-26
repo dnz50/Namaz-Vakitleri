@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+body{
+    background-image: url("wallpaperbetter.com_1366x768.jpg");
+    background-size:cover;
+    background-position:center;
+   
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    text-transform: uppercase;
+    width: 100vw;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    
+}
+
+.row {
+    
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.times{
+    padding-top: 10px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.location{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    background-color: transparent;
+    text-align: left;
+    
+}
+.saat{
+    font-size: 25px;
+}
+
+.modal-content{
+    background: rgba(0, 0, 0, 0.692) !important;
+}
+.modal-header{
+    color: white ;
+}
+.modal-header .btn-close{
+    background-color: white !important;
+}
+.form-control{
+    color: white !important;
+    background: rgba(0, 0, 0, 0.692) !important;
+}
+.form-control option{
+    color: white;
+}
+
+.namaz{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.namaz p{
+    border-radius: 10px;
+    padding: 5px;
+    width: 50%;
+    box-shadow: 2px 2px 10px;
+    margin-bottom: 5px !important;
+    font-size: 25px;
+}
+.namaz-kalan {
+    border-radius: 10px;
+    padding: 5px;
+    width: 49% !important;
+    box-shadow: 2px 2px 10px;
+    margin-bottom: 5px !important;
+    font-size: 25px;
+    align-items: center;
+    
+}
+.namaz-kalan :nth-child(1){
+    margin-bottom: 0;
+}
+.namaz-kalan :nth-child(2){
+    font-size: 40px;
+}
+
+#imsak{
+    background-color: rgba(136, 29, 132, 0.6);
+}
+#güneş{
+    background-color: rgba(252, 133, 54, 0.6);
+}
+#öğle{
+    background-color: rgba(255, 255, 0, 0.6);
+
+}
+#ikindi{
+    background-color: rgba(255, 208, 0, 0.6);
+}
+#akşam{
+    background-color: rgba(183, 0, 255, 0.6);
+}
+#yatsı{
+    background-color: rgba(137, 43, 226, 0.6);
+}
+
+@media(max-width:768px)  {
+    .body{
+        background-size: auto;
+    }
+    .yer{
+        display: flex;
+        flex-direction: row;
+    }
+    .location-icon{
+        font-size: 10px;
+    }
+    .location{
+        font-size: 12px;
+        align-items: center;
+    }
+    .times{
+        font-size: 15px;
+    }
+    .iftar-kalan{
+        width: 84% !important;
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px;
+    }
+    .times p{
+        margin-bottom: 5px;
+    }
+    .iftar-kalan :nth-child(2){
+        font-size: 20px;
+    }
+    .saat{
+        font-size: 20px;
+    }
+    .namaz p{
+        width: 90%;
+        font-size: 20px;
+    }
+    .namaz-kalan{
+       width: 84% !important;
+       font-size: 20px; 
+    }
+    .namaz-kalan :nth-child(2){
+        font-size: 30px;
+        margin-bottom: 5px;
+    }
+
+}
