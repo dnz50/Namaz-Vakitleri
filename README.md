@@ -16,3 +16,6 @@ Namaz Vakitleri
 
 ![Alt text](ekran.gif)
 
+
+## Site Adresi
+![Namaz Vakitleri](https://namaz-vakitleri.netlify.app/)

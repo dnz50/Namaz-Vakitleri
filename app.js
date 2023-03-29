@@ -18,8 +18,17 @@ function GetTime() {
     ${hour}:${minute}:${seconds}`;
 
 }
+
 let countries = [], cities = [], counties = [];
 let counter;
+console.log(countries)
+// runEvents();
+
+// function runEvents(){
+//     document.addEventListener("DOMContentLoaded",
+//         getLocal()
+//    )
+// }
 
 function getcountry() {
     return fetch("https://ezanvakti.herokuapp.com/ulkeler")
@@ -36,6 +45,7 @@ function getcountry() {
             ulke.innerHTML = html;
             ulke.selectedIndex = indexTr;
 
+         
             getcity(2);//2=türkiye
         })
 }
@@ -77,6 +87,7 @@ function getilce(cityId) {
 
             }
             ilceler.innerHTML = html;
+           
         })
 }
 
@@ -114,18 +125,24 @@ function getvakit(countyId) {
             aksamVakti.innerText = `AKŞAM : ${selectData.Aksam}`;
             document.getElementById("yatsı").innerText = `YATSI : ${selectData.Yatsi}`;
 
+            let hi=Number(selectData.Imsak.substring(0,2))
+            let mi=Number(selectData.Imsak.substring(5,3))
+            let gunsonu=`${hi+24}:${mi}:00`
+            // console.log(gunsonu)
+            
 
             clearInterval(counter); //yeni konuma göre sıfırlar
             counter = setInterval(function () {
+
                 //bir sonraki namaz vaktine kalan süre
-                if (saat < selectData.Imsak && saat > 0) {
+                if (saat < selectData.Imsak && saat > "00:00:00") {
                     namazaKalan(selectData.Imsak);
                 }
-                else if (saat < 24 && saat > selectData.Yatsi) {
-                    namazaKalan(selectData.Imsak);
+                else if (saat < gunsonu && saat > selectData.Yatsi) {
+                    namazaKalan(gunsonu);
                 }
                 else if (saat < selectData.Gunes && saat > selectData.Imsak) {
-                    namazaKalan(selectData.Sabah);
+                    namazaKalan(selectData.Gunes);
                 }
                 else if (saat < selectData.Ogle && saat > selectData.Gunes) {
                     namazaKalan(selectData.Ogle);
@@ -157,16 +174,16 @@ function namazaKalan(aksam) {
     endDate.setSeconds("0");
 
     let t = endDate - now;
-    if (t > 0) {
+    // console.log(endDate)
+    
         let hour = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         let minute = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
         let second = Math.floor((t % (1000 * 60)) / 1000);
 
         document.getElementById('time-left').innerText = ("0" + hour).slice(-2) + ":" + ("0" + minute).slice(-2) + ":" + ("0" + second).slice(-2);
-    }
-    else {
-        document.getElementById('time-left').innerText = "00:00:00";
-    }
+    
+        
+   
 
 }
 
@@ -181,6 +198,10 @@ function iftarKalan(vakit) {
     // console.log(son)
 
     let z = son - anlik
+  
+    if(z>0){
+
+    
     // console.log(son - anlik)
     let hours = Math.floor((z % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     let minutes = Math.floor((z % (1000 * 60 * 60)) / (1000 * 60));
@@ -188,7 +209,10 @@ function iftarKalan(vakit) {
 
     let iftar=document.getElementById('time-iftar')
     iftar.innerText = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
-
+    }
+    // else{
+    // iftar.innerText ="00:00:00" 
+    // }
 }
 
 
@@ -201,21 +225,63 @@ function changeCity() {
     getilce(city);
 
 }
+ulke.addEventListener("change",changeCountry)
+sehir.addEventListener("change",changeCity)
 
 function ChangeLocation() {
-    let countryInput = ulke.options[ulke.selectedIndex].text;
-    let cityInput = sehir.options[sehir.selectedIndex].text;
-    let ilceInput = ilceler.options[ilceler.selectedIndex].text;
+    
+
+    // runEvents()
+    // getLocal()
+    // ulkeLocal=ulke.options[ulke.selectedIndex]
+    // sehirLocal=sehir.options[sehir.selectedIndex]
+    // ilceLocal=ilceler.options[ilceler.selectedIndex]
+    // console.log(ulkeLocal,sehirLocal,ilceLocal)
+
+
+    // ulkeLocal.innerText=document.getElementById("country").innerText;
+    // sehirLocal.innerText=document.getElementById("city").innerText;
+    // ilceLocal.innerText=document.getElementById("county").innerText
+
+
+    // let countryInput = ulkeLocal.text;
+    // let cityInput = sehirLocal.text;
+    // let ilceInput = ilceLocal.text;
+
+    let countryInput=ulke.options[ulke.selectedIndex].text;
+    let cityInput=sehir.options[sehir.selectedIndex].text;
+    let ilceInput=ilceler.options[ilceler.selectedIndex].text;
 
     document.getElementById("country").innerText = countryInput;
     document.getElementById("city").innerText = cityInput;
     document.getElementById("county").innerText = ilceInput;
-
-    console.log(ilceInput)
+    
+    // addToLocal()
     getvakit(ilceler.value)
-
+// console.log(ilceInput)
+// console.log(ilceler.options[ilceler.selectedIndex].value)
+    
 }
 
+let kaydet=document.getElementById("kaydet");
+kaydet.addEventListener("click",ChangeLocation)
+
+// function addToLocal(){
+
+//     let ulkeId=ulke.options[ulke.selectedIndex].value;
+//     let sehirId=sehir.options[sehir.selectedIndex].value;
+//     let ilceId=ilceler.options[ilceler.selectedIndex].value;
+
+//     localStorage.setItem("ulke",JSON.stringify(ulkeId));
+//     localStorage.setItem("sehir",JSON.stringify(sehirId));
+//     localStorage.setItem("ilce",JSON.stringify(ilceId));
+// }
+// function getLocal(){
+//     ulkeLocal=JSON.parse(localStorage.getItem("ulke"))
+//     sehirLocal=JSON.parse(localStorage.getItem("sehir"))
+//     ilceLocal=JSON.parse(localStorage.getItem("ilce"))
+
+// }
 
 setInterval(() => {
     GetTime()
@@ -223,4 +289,5 @@ setInterval(() => {
 
 getcountry()
 getvakit(9541)
+
 
