@@ -3,7 +3,7 @@ let ulke = document.getElementById("countries")
 let sehir = document.getElementById("cities")
 let ilceler = document.getElementById("counties")
 
-function GetTime() {
+async function GetTime() {
     let now = new Date();
     let hour = now.getHours();
     let minute = now.getMinutes();
@@ -21,16 +21,16 @@ function GetTime() {
 
 let countries = [], cities = [], counties = [];
 let counter;
-console.log(countries)
-// runEvents();
+runEvents();
 
-// function runEvents(){
-//     document.addEventListener("DOMContentLoaded",
-//         getLocal()
-//    )
-// }
+function runEvents() {
+    document.addEventListener("DOMContentLoaded",
+        ChangeLocation
 
-function getcountry() {
+    )
+}
+
+async function getcountry() {
     return fetch("https://ezanvakti.herokuapp.com/ulkeler")
         .then(res => res.json())
         .then(data => {
@@ -45,12 +45,12 @@ function getcountry() {
             ulke.innerHTML = html;
             ulke.selectedIndex = indexTr;
 
-         
+
             getcity(2);//2=türkiye
         })
 }
 
-function getcity(countryId) {
+async function getcity(countryId) {
     return fetch("https://ezanvakti.herokuapp.com/sehirler/" + countryId)
         .then(res => res.json())
         .then(data => {
@@ -59,7 +59,8 @@ function getcity(countryId) {
             let indexIst = 0;
 
             for (let i = 0; i < data.length; i++) {
-                html += '<option value="' + data[i].SehirID + '">' + data[i].SehirAdi + '</option>';
+
+                html += `<option value="${data[i].SehirID}">${data[i].SehirAdi}</option>`
                 if (data[i].SehirAdi == "İSTANBUL") indexIst = i;
             }
 
@@ -75,7 +76,7 @@ function getcity(countryId) {
         })
 }
 
-function getilce(cityId) {
+async function getilce(cityId) {
     return fetch("https://ezanvakti.herokuapp.com/ilceler/" + cityId)
         .then(res => res.json())
         .then(data => {
@@ -87,11 +88,11 @@ function getilce(cityId) {
 
             }
             ilceler.innerHTML = html;
-           
+
         })
 }
 
-function getvakit(countyId) {
+async function getvakit(countyId) {
     return fetch("https://ezanvakti.herokuapp.com/vakitler/" + countyId)
         .then(res => res.json())
         .then(data => {
@@ -125,11 +126,11 @@ function getvakit(countyId) {
             aksamVakti.innerText = `AKŞAM : ${selectData.Aksam}`;
             document.getElementById("yatsı").innerText = `YATSI : ${selectData.Yatsi}`;
 
-            let hi=Number(selectData.Imsak.substring(0,2))
-            let mi=Number(selectData.Imsak.substring(5,3))
-            let gunsonu=`${hi+24}:${mi}:00`
+            let hi = Number(selectData.Imsak.substring(0, 2))
+            let mi = Number(selectData.Imsak.substring(5, 3))
+            let gunsonu = `${hi + 24}:${mi}:00`
             // console.log(gunsonu)
-            
+
 
             clearInterval(counter); //yeni konuma göre sıfırlar
             counter = setInterval(function () {
@@ -175,15 +176,15 @@ function namazaKalan(aksam) {
 
     let t = endDate - now;
     // console.log(endDate)
-    
-        let hour = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minute = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
-        let second = Math.floor((t % (1000 * 60)) / 1000);
 
-        document.getElementById('time-left').innerText = ("0" + hour).slice(-2) + ":" + ("0" + minute).slice(-2) + ":" + ("0" + second).slice(-2);
-    
-        
-   
+    let hour = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minute = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+    let second = Math.floor((t % (1000 * 60)) / 1000);
+
+    document.getElementById('time-left').innerText = ("0" + hour).slice(-2) + ":" + ("0" + minute).slice(-2) + ":" + ("0" + second).slice(-2);
+
+
+
 
 }
 
@@ -198,17 +199,17 @@ function iftarKalan(vakit) {
     // console.log(son)
 
     let z = son - anlik
-  
-    if(z>0){
 
-    
-    // console.log(son - anlik)
-    let hours = Math.floor((z % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((z % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((z % (1000 * 60)) / 1000);
+    if (z > 0) {
 
-    let iftar=document.getElementById('time-iftar')
-    iftar.innerText = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+
+        // console.log(son - anlik)
+        let hours = Math.floor((z % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((z % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((z % (1000 * 60)) / 1000);
+
+        let iftar = document.getElementById('time-iftar')
+        iftar.innerText = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
     }
     // else{
     // iftar.innerText ="00:00:00" 
@@ -223,65 +224,58 @@ function changeCountry() {
 function changeCity() {
     let city = sehir.value;
     getilce(city);
-
 }
-ulke.addEventListener("change",changeCountry)
-sehir.addEventListener("change",changeCity)
+
+ulke.addEventListener("change", changeCountry)
+sehir.addEventListener("change", changeCity)
+
+let kaydet = document.getElementById("kaydet");
+kaydet.addEventListener("click", () => {
+    addToLocal(),
+        ChangeLocation()
+})
 
 function ChangeLocation() {
-    
-
     // runEvents()
-    // getLocal()
-    // ulkeLocal=ulke.options[ulke.selectedIndex]
-    // sehirLocal=sehir.options[sehir.selectedIndex]
-    // ilceLocal=ilceler.options[ilceler.selectedIndex]
-    // console.log(ulkeLocal,sehirLocal,ilceLocal)
+    getLocal()
 
-
-    // ulkeLocal.innerText=document.getElementById("country").innerText;
-    // sehirLocal.innerText=document.getElementById("city").innerText;
-    // ilceLocal.innerText=document.getElementById("county").innerText
-
-
-    // let countryInput = ulkeLocal.text;
-    // let cityInput = sehirLocal.text;
-    // let ilceInput = ilceLocal.text;
-
-    let countryInput=ulke.options[ulke.selectedIndex].text;
-    let cityInput=sehir.options[sehir.selectedIndex].text;
-    let ilceInput=ilceler.options[ilceler.selectedIndex].text;
-
-    document.getElementById("country").innerText = countryInput;
-    document.getElementById("city").innerText = cityInput;
-    document.getElementById("county").innerText = ilceInput;
-    
-    // addToLocal()
-    getvakit(ilceler.value)
-// console.log(ilceInput)
-// console.log(ilceler.options[ilceler.selectedIndex].value)
-    
+    document.getElementById("country").innerText = ulkeLocal;
+    document.getElementById("city").innerText = sehirLocal;
+    document.getElementById("county").innerText = ilceLocal;
 }
 
-let kaydet=document.getElementById("kaydet");
-kaydet.addEventListener("click",ChangeLocation)
+function addToLocal() {
 
-// function addToLocal(){
+    let ulkeId = ulke.options[ulke.selectedIndex].value;
+    let sehirId = sehir.options[sehir.selectedIndex].value;
+    let ilceId = ilceler.options[ilceler.selectedIndex].value;
+    // console.log(ilceler.options[ilceler.selectedIndex]);
 
-//     let ulkeId=ulke.options[ulke.selectedIndex].value;
-//     let sehirId=sehir.options[sehir.selectedIndex].value;
-//     let ilceId=ilceler.options[ilceler.selectedIndex].value;
+    let ulkeAd = ulke.options[ulke.selectedIndex].text;
+    let sehirAd = sehir.options[sehir.selectedIndex].text;
+    let ilceAd = ilceler.options[ilceler.selectedIndex].text;
 
-//     localStorage.setItem("ulke",JSON.stringify(ulkeId));
-//     localStorage.setItem("sehir",JSON.stringify(sehirId));
-//     localStorage.setItem("ilce",JSON.stringify(ilceId));
-// }
-// function getLocal(){
-//     ulkeLocal=JSON.parse(localStorage.getItem("ulke"))
-//     sehirLocal=JSON.parse(localStorage.getItem("sehir"))
-//     ilceLocal=JSON.parse(localStorage.getItem("ilce"))
+    console.log(ilceAd);
+    localStorage.setItem("ulke", JSON.stringify(ulkeId));
+    localStorage.setItem("sehir", JSON.stringify(sehirId));
+    localStorage.setItem("ilce", JSON.stringify(ilceId));
 
-// }
+    localStorage.setItem("ulk", JSON.stringify(ulkeAd));
+    localStorage.setItem("seh", JSON.stringify(sehirAd));
+    localStorage.setItem("ilc", JSON.stringify(ilceAd));
+
+    getvakit(ilceler.value)
+}
+
+function getLocal() {
+    ulkeLid = JSON.parse(localStorage.getItem("ulke"))
+    sehirLid = JSON.parse(localStorage.getItem("sehir"))
+    ilceLid = JSON.parse(localStorage.getItem("ilce"))
+
+    ulkeLocal = JSON.parse(localStorage.getItem("ulk"))
+    sehirLocal = JSON.parse(localStorage.getItem("seh"))
+    ilceLocal = JSON.parse(localStorage.getItem("ilc"))
+}
 
 setInterval(() => {
     GetTime()
