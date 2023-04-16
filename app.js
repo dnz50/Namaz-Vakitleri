@@ -3,7 +3,7 @@ let ulke = document.getElementById("countries")
 let sehir = document.getElementById("cities")
 let ilceler = document.getElementById("counties")
 
-async function GetTime() {
+function GetTime() {
     let now = new Date();
     let hour = now.getHours();
     let minute = now.getMinutes();
@@ -30,7 +30,7 @@ function runEvents() {
     )
 }
 
-async function getcountry() {
+function getcountry() {
     return fetch("https://ezanvakti.herokuapp.com/ulkeler")
         .then(res => res.json())
         .then(data => {
@@ -50,7 +50,7 @@ async function getcountry() {
         })
 }
 
-async function getcity(countryId) {
+function getcity(countryId) {
     return fetch("https://ezanvakti.herokuapp.com/sehirler/" + countryId)
         .then(res => res.json())
         .then(data => {
@@ -76,7 +76,7 @@ async function getcity(countryId) {
         })
 }
 
-async function getilce(cityId) {
+function getilce(cityId) {
     return fetch("https://ezanvakti.herokuapp.com/ilceler/" + cityId)
         .then(res => res.json())
         .then(data => {
@@ -92,8 +92,9 @@ async function getilce(cityId) {
         })
 }
 
-async function getvakit(countyId) {
-    return fetch("https://ezanvakti.herokuapp.com/vakitler/" + countyId)
+function getvakit() {
+    getLocal()
+    return fetch("https://ezanvakti.herokuapp.com/vakitler/" + ilceLid)
         .then(res => res.json())
         .then(data => {
             let currentDate = new Date();
